@@ -1,0 +1,161 @@
+CREATE DATABASE IF NOT EXISTS futebol;
+USE futebol;
+
+CREATE TABLE Estádios (
+    id_estadio INT PRIMARY KEY,
+    nome VARCHAR(100),
+    capacidade INT,
+    cidade VARCHAR(100),
+    data_inauguracao DATE
+);
+
+CREATE TABLE Times (
+    id_time INT PRIMARY KEY,
+    nome VARCHAR(100),
+    fundacao DATE,
+    cidade VARCHAR(100),
+    estadio_id INT,
+    FOREIGN KEY (estadio_id) REFERENCES Estádios(id_estadio)
+);
+
+CREATE TABLE Jogadores (
+    id_jogador INT PRIMARY KEY,
+    nome VARCHAR(100),
+    posicao VARCHAR(50),
+    data_nascimento DATE,
+    time_id INT,
+    FOREIGN KEY (time_id) REFERENCES Times(id_time)
+);
+
+CREATE TABLE Partidas (
+    id_partida INT PRIMARY KEY,
+    data DATE,
+    time_casa_id INT,
+    time_visitante_id INT,
+    estadio_id INT,
+    FOREIGN KEY (time_casa_id) REFERENCES Times(id_time),
+    FOREIGN KEY (time_visitante_id) REFERENCES Times(id_time),
+    FOREIGN KEY (estadio_id) REFERENCES Estádios(id_estadio)
+);
+
+CREATE TABLE Treinadores (
+    id_treinador INT PRIMARY KEY,
+    nome VARCHAR(100),
+    data_nascimento DATE,
+    time_id INT,
+    data_inicio DATE,
+    FOREIGN KEY (time_id) REFERENCES Times(id_time)
+);
+
+-- Inserindo dados na tabela Estádios
+INSERT INTO Estádios (id_estadio, nome, capacidade, cidade, data_inauguracao)
+VALUES
+(1, 'Estádio Maracanã', 78838, 'Rio de Janeiro', '1950-06-16'),
+(2, 'Estádio do Mineirão', 62467, 'Belo Horizonte', '1965-09-05'),
+(3, 'Arena Corinthians', 49174, 'São Paulo', '2014-05-17'),
+(4, 'Estádio Beira-Rio', 50012, 'Porto Alegre', '1969-04-06'),
+(5, 'Estádio Morumbi', 67217, 'São Paulo', '1960-09-02');
+
+-- Inserindo dados na tabela Times
+INSERT INTO Times (id_time, nome, fundacao, cidade, estadio_id)
+VALUES
+(1, 'Flamengo', '1895-11-17', 'Rio de Janeiro', 1),
+(2, 'Atlético Mineiro', '1908-03-25', 'Belo Horizonte', 2),
+(3, 'Corinthians', '1910-09-01', 'São Paulo', 3),
+(4, 'Gremio', '1903-09-15', 'Porto Alegre', 4),
+(5, 'São Paulo', '1930-01-25', 'São Paulo', 5);
+
+-- Inserindo dados na tabela Jogadores
+INSERT INTO Jogadores (id_jogador, nome, posicao, data_nascimento, time_id)
+VALUES
+(1, 'Gabriel Barbosa', 'Atacante', '1996-08-30', 1),
+(2, 'Hulk', 'Atacante', '1986-07-25', 2),
+(3, 'Jô', 'Atacante', '1987-03-20', 3),
+(4, 'Geromel', 'zagueiro', '1985-09-21', 4),
+(5, 'Crespo', 'Atacante', '1975-07-05', 5);
+
+-- Inserindo dados na tabela Partidas
+INSERT INTO Partidas (id_partida, data, time_casa_id, time_visitante_id, estadio_id)
+VALUES
+(1, '2024-09-20', 1, 2, 1),
+(2, '2024-09-21', 3, 4, 3),
+(3, '2024-09-22', 5, 1, 5),
+(4, '2024-09-23', 2, 3, 2),
+(5, '2024-09-24', 4, 5, 4);
+
+-- Inserindo dados na tabela Treinadores
+INSERT INTO Treinadores (id_treinador, nome, data_nascimento, time_id, data_inicio)
+VALUES
+(1, 'Sampaoli', '1960-03-13', 1, '2024-01-01'),
+(2, 'Cuca', '1963-09-07', 2, '2023-07-01'),
+(3, 'Tite', '1961-05-25', 3, '2023-06-01'),
+(4, 'renato portalupp', '1962-09-09', 4, '2021-04-15'),
+(5, 'Dorival Júnior', '1962-06-14', 5, '2024-03-01');
+
+-- Atualizando dados na tabela Times
+UPDATE Times
+SET nome = 'Flamengo FC'
+WHERE id_time = 1;
+
+UPDATE Times
+SET cidade = 'Belo Horizonte'
+WHERE id_time = 2;
+
+UPDATE Times
+SET fundacao = '1911-09-01'
+WHERE id_time = 3;
+
+UPDATE Times
+SET estadio_id = 5
+WHERE id_time = 4;
+
+UPDATE Times
+SET cidade = 'São Paulo'
+WHERE id_time = 5;
+
+-- Atualizando dados na tabela Jogadores
+UPDATE Jogadores
+SET posicao = 'Centroavante'
+WHERE id_jogador = 1;
+
+UPDATE Jogadores
+SET data_nascimento = '1987-07-25'
+WHERE id_jogador = 2;
+
+UPDATE Jogadores
+SET nome = 'João'
+WHERE id_jogador = 3;
+
+UPDATE Jogadores
+SET time_id = 1
+WHERE id_jogador = 4;
+
+UPDATE Jogadores
+SET posicao = 'zagueiro'
+WHERE id_jogador = 5;
+
+-- Deletando dados na tabela Estádios
+DELETE FROM Estádios
+WHERE id_estadio = 5;
+
+DELETE FROM Estádios
+WHERE id_estadio = 4;
+
+-- Deletando dados na tabela Times
+DELETE FROM Times
+WHERE id_time = 3;
+
+DELETE FROM Times
+WHERE id_time = 2;
+
+-- Deletando dados na tabela Jogadores
+DELETE FROM Jogadores
+WHERE id_jogador = 4;
+
+DELETE FROM Jogadores
+WHERE id_jogador = 5;
+
+DELETE FROM Jogadores
+WHERE id_jogador = 3;
+
+select * from Times;
